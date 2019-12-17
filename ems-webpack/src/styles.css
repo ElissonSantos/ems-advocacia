@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+body {
+  background-color: #2E2E2E;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+.fundoMenu {
+  background-color: #707070;
+}
+
+.sideButton {
+  font-size: 2em;
+}
