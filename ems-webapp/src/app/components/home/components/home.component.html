@@ -1,0 +1,9 @@
+<div style="background-color: whitesmoke; width: 80%">
+  <p-accordion [multiple]="true" class="center">
+    <p-accordionTab *ngFor="let message of mensagens" header="{{ message.mes_titulo }}">
+      {{ message.mes_texto }}
+    </p-accordionTab>
+  </p-accordion>
+
+  <p-fullCalendar [events]="events" [options]="options"></p-fullCalendar>
+</div>
