@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { LoginModule } from './login/login.module';
-import { MessagesModule } from './messages/messages.module';
+import { LoginModule } from './api/login/login.module';
+import { EmsModule } from './api/ems/ems.module';
 
 @Module({
-  imports: [LoginModule, MessagesModule],
+  imports: [
+    LoginModule,
+    EmsModule],
   controllers: [],
   providers: [],
 })

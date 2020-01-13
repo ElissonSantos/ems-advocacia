@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as moment from 'moment';
 
-import { Message, MessageResource } from '../../models/messages.model';
+import { Message, MessageResource } from 'src/models/messages.model';
 import { getConnection } from 'typeorm';
 
 @Injectable()

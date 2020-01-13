@@ -10,14 +10,23 @@ export class MessagesController {
     this.logger = new Logger('MessagesController');
   }
 
-  @Put()
-  inserir() {}
+  // @Put()
+  @Get('put')
+  inserir() {
+    return 'put';
+  }
 
-  @Post()
-  update() {}
+  // @Post()
+  @Get('post')
+  update() {
+    return 'post';
+  }
 
-  @Delete()
-  delete() {}
+  // @Delete()
+  @Get('delete')
+  delete() {
+    return 'delete';
+  }
 
   @Get()
   getMessages() {
