@@ -10,7 +10,7 @@ import { ClienteResource } from 'src/app/models/cliente.model';
 })
 export class ClientesComponent implements OnInit {
 
-  listaCliente;
+  listaClientes;
 
   constructor(private readonly clienteService: ClienteService) {
   }
@@ -21,6 +21,8 @@ export class ClientesComponent implements OnInit {
 
   pesquisa() {
     this.clienteService.list()
-      .subscribe(retorno => this.listaCliente = retorno);
+      .subscribe(retorno => this.listaClientes = retorno);
+
+    console.log(this.listaClientes);
   }
 }
