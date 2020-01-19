@@ -16,3 +16,22 @@ html, body {
 .sideButton {
   font-size: 2em;
 }
+
+.floatRight {
+  float: right;
+}
+
+div.loading {
+  height: 100%;
+  position: relative
+}
+
+div.loading p {
+  margin: 0;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%) 
+}

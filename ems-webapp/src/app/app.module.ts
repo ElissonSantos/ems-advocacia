@@ -9,6 +9,7 @@ import { SidebarComponent } from './components/menu/components/sidebar/sidebar.c
 import { HeaderComponent } from './components/menu/components/header/header.component';
 import { ComponentsModule } from './components/components.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PrimeNgModule } from './components/primeng.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule,
     ComponentsModule,
-    MaterialModule
+    MaterialModule,
+    PrimeNgModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Cliente } from '../models/cliente.model';
+import { Cliente, ClienteResource } from '../models/cliente.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  insert(cliente: Cliente) {
-    if (cliente.cli_id) {
+  insert(cliente: ClienteResource) {
+    if (cliente.id) {
       return this.http.put(this.pathUrl, cliente);
     } else {
       return this.http.post(this.pathUrl, cliente);
@@ -25,11 +25,11 @@ export class ClienteService {
   }
 
   list() {
-    return this.http.get(this.pathUrl);
+    return this.http.get<ClienteResource[]>(this.pathUrl);
   }
 
   read(id: number) {
     const url = this.pathUrl + '/' + id;
-    return this.http.get(url);
+    return this.http.get<ClienteResource>(url);
   }
 }

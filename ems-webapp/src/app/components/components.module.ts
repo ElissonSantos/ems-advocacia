@@ -6,6 +6,7 @@ import { CasosModule } from './casos/casos.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { MessageModule } from './message/message.module';
 import { AboutModule } from './about/about.module';
+import { PrimeNgModule } from './primeng.module';
 
 @NgModule({
   imports: [

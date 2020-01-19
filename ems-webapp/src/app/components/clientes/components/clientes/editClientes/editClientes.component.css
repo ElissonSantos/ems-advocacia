@@ -1,0 +1,18 @@
+.cabecalho {
+    color: white;
+    text-align: center;
+    margin: 5px 0px 5px 0px;
+}
+
+.formulario {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.card {
+    margin: 0px 30px 0px 30px;
+}

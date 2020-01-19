@@ -1,0 +1,132 @@
+<div class="p-grid">
+    <div class="p-col-2"></div>
+
+    <div class="p-col-8 p-col-align-center">
+        <div class="p-col">
+            <h2 class="cabecalho" *ngIf="idCliente && cadastroForm.enabled">Editar Cliente {{ idCliente }}</h2>
+            <h2 class="cabecalho" *ngIf="idCliente && cadastroForm.disabled">Visualizar Cliente {{ idCliente }}</h2>
+            <h2 class="cabecalho" *ngIf="!idCliente">Cadastrar Cliente</h2>
+        </div>
+
+        <div class="p-col">
+            <form [formGroup]="cadastroForm" (submit)="novoCliente()">
+                <p-card>
+                    <div style="margin: 20px 20px 20px 20px;">
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;">
+                            <div class="ui-g-12">
+                                <span class="ui-float-label">
+                                    <input style="width: 100%;" formControlName="nome" required type="text" pInputText>
+                                    <label style="font-size: medium; color: #464646;">Nome Completo:</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;">
+                            <div class="ui-g-12">
+                                <span class="ui-float-label">
+                                    <input style="width: 100%;" formControlName="nome" type="email" pInputText>
+                                    <label style="font-size: medium; color: #464646;">Email:</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;">
+                            <div class="ui-g-6">
+                                <span class="ui-float-label">
+                                    <input style="width: 95%;" formControlName="rg" required  type="number" pInputText>
+                                    <label style="font-size: medium; color: #464646;">RG:</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-6">
+                                <span class="ui-float-label">
+                                    <input style="width: 95%;" formControlName="cpf" required type="number" pInputText>
+                                    <label style="font-size: medium; color: #464646;">CPF:</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;">
+                            <div class="ui-g-6">
+                                <span class="ui-float-label">
+                                    <input style="width: 95%;" formControlName="fone" required type="number" pInputText>
+                                    <label style="font-size: medium; color: #464646;">Telefone:</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-6">
+                                <span class="ui-float-label">
+                                    <input style="width: 95%;" formControlName="fone1" type="number" pInputText>
+                                    <label style="font-size: medium; color: #464646;">Telefone:</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;">
+                            <div class="ui-g-12">
+                                <span class="ui-float-label">
+                                    <input style="width: 100%;" formControlName="endereco" required type="text"
+                                        pInputText>
+                                    <label style="font-size: medium; color: #464646;">Endereco:</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;">
+                            <div class="ui-g-12">
+                                <!-- Excluir -->
+                                <button pButton type="button" label="Excluir" icon="pi pi-trash"
+                                    (click)="excluirCliente()" class="ui-button-raised ui-button-danger"
+                                    *ngIf="idCliente && cadastroForm.enabled"></button>
+                                <!-- Voltar -->
+                                <button pButton type="button" label="Voltar" icon="pi pi-times"
+                                    class="ui-button-raised ui-button-danger floatRight"
+                                    (click)="cancelarCadastro()"></button>
+                                <!-- Salvar -->
+                                <button pButton icon="pi pi-check" label="Salvar"
+                                    *ngIf="!idCliente || cadastroForm.enabled" (click)="novoCliente()"
+                                    class="ui-button-raised floatRight" [disabled]="cadastroForm.invalid"></button>
+                                <!-- Alterar -->
+                                <button pButton icon="pi pi-check" label="Alterar"
+                                    *ngIf="idCliente && cadastroForm.disabled" (click)="cadastroForm.enable()"
+                                    class="ui-button-raised ui-button-warning floatRight"></button>
+                            </div>
+                        </div>
+
+                        <div class="ui-g" style="padding: 20px 0px 0px 0px;" *ngIf="idCliente">
+                            <div class="ui-g-12">
+                                <h6 class="first">Processos</h6>
+                                <p-table [columns]="cols" [value]="processos">
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th *ngFor="let col of columns">
+                                                {{col.header}}
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData>
+                                        <tr>
+                                            <td class="center"> {{rowData.numero}} </td>
+                                            <td class="center"> {{rowData.area}} </td>
+                                            <td class="center"> {{rowData.add}} </td>
+                                            <td class="center">
+                                                <button pButton type="button" (onclick)="cancelar()"
+                                                    icon="pi pi-search"></button>
+                                                <button pButton type="button" class="ui-button-warning"
+                                                    (onclick)="cancelar()" icon="pi pi-pencil" iconPos="left"></button>
+                                            </td>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage" let-columns>
+                                        <tr>
+                                            <td [attr.colspan]="columns.length">
+                                                Não há processos cadastrados.
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+            </form>
+        </div>
+    </div>
+</div>
