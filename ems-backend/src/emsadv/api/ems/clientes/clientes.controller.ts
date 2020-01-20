@@ -10,7 +10,7 @@ export class ClientesController {
     this.logger = new Logger('ClientesController');
   }
 
-  @Put()
+  @Post()
   inserir(@Body() body: any) {
     return this.clientesService.insert(body)
       .then(() => {
@@ -21,15 +21,17 @@ export class ClientesController {
       });
   }
 
-  @Post()
+  @Put()
   update(@Body() body: any) {
-    return this.clientesService.update(body)
-      .then(() => {
-        return;
-      })
-      .catch(err => {
-        return err;
-      });
+    this.logger.warn('Put');
+    this.logger.warn(body);
+    // return this.clientesService.update(body)
+    //   .then(() => {
+    //     return;
+    //   })
+    //   .catch(err => {
+    //     return err;
+    //   });
   }
 
   @Delete()
@@ -47,6 +49,7 @@ export class ClientesController {
   getClientes() {
     return this.clientesService.list()
       .then(result => {
+        this.logger.error(result)
         const retorno = [];
         result.forEach(cliente => {
           const clienteResource = this.clientesService.convertDomainToResource(cliente);

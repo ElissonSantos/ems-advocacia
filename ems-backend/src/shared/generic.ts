@@ -1,25 +1,26 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { getConnection } from 'typeorm';
+import { Connection, getConnection } from 'typeorm';
 
 @Injectable()
 export class GenericDA {
 
   public logger: Logger;
+  private connection: Connection;
 
   constructor() {
     this.logger = new Logger('GenericDA');
+    this.connection = getConnection('emsdb');
   }
 
-  genericInsert(columns: any[], values: any[], schemaName: string, tableName: string) {
-    const connection = getConnection();
+  async genericInsert(columns: any[], values: any[], schemaName: string, tableName: string) {
+    const connection = getConnection('emsdb');
 
     let insertQuery = `INSERT INTO ${schemaName}.${tableName}`;
     insertQuery += `(${columns})`;
-    insertQuery += ` VALUES ${values}`;
+    insertQuery += ` VALUES (${values})`;
 
-    this.logger.log(insertQuery);
-
-    return connection.query(insertQuery);
+    console.log(insertQuery);
+    return connection.query(insertQuery);;
   }
 
   genericUpdate(id: string, nameColumn: string, columns: any[], values: any[], schemaName: string, tableName: string) {
@@ -46,8 +47,6 @@ export class GenericDA {
   }
 
   genericSelect(columns: any[], schemaName: string, tableName: string, whereColumns?: string, predicates?: string) {
-    const connection = getConnection();
-
     let selectQuery = `SELECT ${columns} FROM ${schemaName}.${tableName}`;
 
     if (predicates) {
@@ -56,6 +55,6 @@ export class GenericDA {
 
     this.logger.warn(selectQuery);
 
-    return connection.query(selectQuery);
+    return this.connection.query(selectQuery);
   }
 }

@@ -4,8 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { CasoResource } from 'src/app/models/caso.model';
 import { CasoService } from 'src/app/services/caso.service';
-import { ClienteResource } from 'src/app/models/cliente.model';
+import { ClienteResource, Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'ems-editClientes',
@@ -19,6 +20,12 @@ export class EditClientesComponent implements OnInit {
   cadastroForm: FormGroup;
   idCliente: any;
   cols: any[];
+  msgs: string;
+
+  ecpf: boolean;
+  ecnpj: boolean;
+  textoAlterado: string;
+  index: number;
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +44,9 @@ export class EditClientesComponent implements OnInit {
       { field: 'opcoes', header: 'Opções' }
     ];
 
+    this.ecpf = false;
+    this.ecnpj = false;
+    this.msgs = '';
     this.route.params.subscribe(x => {
       this.idCliente = x.id;
     });
@@ -45,6 +55,10 @@ export class EditClientesComponent implements OnInit {
       this.clienteService.read(this.idCliente)
         .subscribe(cliente => {
           this.cliente = cliente;
+          this.index = 1;
+          this.textoAlterado = 'textinho'
+          this.ecpf = true;
+          this.ecpf = false;
         });
       if (!this.cliente) {
         this.cancelarCadastro();
@@ -52,45 +66,55 @@ export class EditClientesComponent implements OnInit {
       this.loadObjectToForm(this.cliente);
       this.cadastroForm.disable();
     } else {
+      this.index = 0;
+      this.textoAlterado = 'Otavio mesquita'
       this.cliente = null;
     }
   }
 
   buildForms() {
+
+    // Formulario Pessoa Fisica
     this.cadastroForm = this.fb.group({
       id: [''],
       nome: ['', Validators.required],
-      email: [''],
-      rg: [undefined, Validators.required],
-      cpf: [undefined, Validators.required],
+      email: ['', Validators.required],
+      rg: [undefined],
+      cpf: [undefined],
+      cnpj: [undefined],
       fone: [undefined, Validators.required],
-      fone1: [undefined],
+      fone1: [''],
       endereco: ['', Validators.required]
     });
   }
 
+  selecionou() {
+    console.log('veio por aqui')
+    this.textoAlterado = 'Vai alternando sem compromisso';
+  }
+
   novoCliente() {
-    const { id, nome, email, rg, cpf, fone, fone1, endereco } = this.cadastroForm.value;
+    const { id, nome, email, rg, cpf, cnpj, fone, fone1, endereco } = this.cadastroForm.value;
 
-    console.log(this.cadastroForm.valid)
-
-    const newCliente: ClienteResource = {
-      id: id,
-      nome: nome,
-      email: email,
-      rg: rg,
-      cpf: cpf,
-      fone: fone,
-      fone1: fone1,
-      endereco: endereco
+    const newCliente: Cliente = {
+      cli_id: id,
+      cli_nome: nome,
+      cli_email: email,
+      cli_rg: rg,
+      cli_cpf: cpf,
+      cli_cnpj: cnpj,
+      cli_fone: fone,
+      cli_fone1: fone1,
+      cli_endereco: endereco
     }
 
-    console.log(newCliente);
-
-    // this.clienteService.insert(newCliente)
-    //   .subscribe(() => {
-    //     console.log('adiciondo Com Sucesso');
-    //   });
+    this.clienteService.insert(newCliente)
+      .subscribe(() => {
+        this.cancelarCadastro();
+      },
+        err => {
+          this.msgs = 'Ocorreu um erro ao salvar cliente.'
+        });
   }
 
   cancelarCadastro() {

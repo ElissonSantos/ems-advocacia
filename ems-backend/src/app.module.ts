@@ -8,6 +8,7 @@ import { EmsAdvModule } from './emsadv/emsadv.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      name: 'emsdb',
       type: 'mysql',
       host: 'localhost',
       port: 3306,

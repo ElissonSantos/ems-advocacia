@@ -12,8 +12,8 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  insert(cliente: ClienteResource) {
-    if (cliente.id) {
+  insert(cliente: Cliente) {
+    if (cliente.cli_id) {
       return this.http.put(this.pathUrl, cliente);
     } else {
       return this.http.post(this.pathUrl, cliente);

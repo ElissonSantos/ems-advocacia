@@ -26,6 +26,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { ListboxModule } from 'primeng/listbox';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
+import { TabViewModule } from 'primeng/tabview';
+
 
 @NgModule({
   imports: [
@@ -55,7 +57,7 @@ import { TableModule } from 'primeng/table';
     ListboxModule,
     MenuModule,
     TableModule,
-    TableModule
+    TabViewModule
   ],
   declarations: [],
   providers: [],
@@ -85,6 +87,7 @@ import { TableModule } from 'primeng/table';
     ListboxModule,
     MenuModule,
     TableModule,
+    TabViewModule
   ]
 })
 export class PrimeNgModule { }

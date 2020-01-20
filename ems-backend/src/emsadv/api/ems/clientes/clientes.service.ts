@@ -17,24 +17,32 @@ export class ClientesService {
   }
 
   insert(cliente: Cliente): Promise<any> {
+    if (!cliente.cli_cnpj) { cliente.cli_cnpj = 0; }
+    if (!cliente.cli_rg) { cliente.cli_rg = 0; }
+    if (!cliente.cli_cpf) { cliente.cli_cpf = 0; }
+    if (!cliente.cli_fone1) { cliente.cli_fone1 = 0; }
     return this.genericDA.genericInsert(
       [
         // Colunas que serao inseridas
-        'cli_id',
         'cli_nome',
+        'cli_email',
         'cli_rg',
         'cli_cpf',
+        'cli_cnpj',
         'cli_fone',
         'cli_fone1',
+        'cli_endereco',
       ],
       [
         // Valores que serao inseridos
-        `'${cliente.cli_id}'`,
         `'${cliente.cli_nome}'`,
+        `'${cliente.cli_email}'`,
         `'${cliente.cli_rg}'`,
         `'${cliente.cli_cpf}'`,
+        `'${cliente.cli_cnpj}'`,
         `'${cliente.cli_fone}'`,
         `'${cliente.cli_fone1}'`,
+        `'${cliente.cli_endereco}'`,
       ],
       this.schemaName,
       this.tableName,
@@ -94,10 +102,12 @@ export class ClientesService {
       cliente = {
         cli_id: resource.id,
         cli_nome: resource.nome,
+        cli_email: resource.email,
         cli_rg: resource.rg,
         cli_cpf: resource.cpf,
         cli_fone: resource.fone,
         cli_fone1: resource.fone1,
+        cli_endereco: resource.endereco,
       };
     }
     return cliente;
@@ -110,10 +120,12 @@ export class ClientesService {
       clienteResource = {
         id: domain.cli_id,
         nome: domain.cli_nome,
+        email: domain.cli_email,
         rg: domain.cli_rg,
         cpf: domain.cli_cpf,
         fone: domain.cli_fone,
         fone1: domain.cli_fone1,
+        endereco: domain.cli_endereco,
       };
     }
     return clienteResource;
