@@ -21,6 +21,10 @@ html, body {
   float: right;
 }
 
+.center {
+  text-align: center;
+}
+
 div.loading {
   height: 100%;
   position: relative

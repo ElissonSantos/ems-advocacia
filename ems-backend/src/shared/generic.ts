@@ -13,19 +13,15 @@ export class GenericDA {
   }
 
   async genericInsert(columns: any[], values: any[], schemaName: string, tableName: string) {
-    const connection = getConnection('emsdb');
-
     let insertQuery = `INSERT INTO ${schemaName}.${tableName}`;
     insertQuery += `(${columns})`;
     insertQuery += ` VALUES (${values})`;
 
     console.log(insertQuery);
-    return connection.query(insertQuery);;
+    return this.connection.query(insertQuery);
   }
 
   genericUpdate(id: string, nameColumn: string, columns: any[], values: any[], schemaName: string, tableName: string) {
-    const connection = getConnection();
-
     let updateQuery = `UPDATE ${schemaName}.${tableName} SET `;
     for (let i = 0; i < columns.length; i++) {
       updateQuery += `${columns[i]} = '${values[i]}',`;
@@ -33,17 +29,14 @@ export class GenericDA {
     updateQuery += ` WHERE ${nameColumn} = ${id}`;
 
     this.logger.log(updateQuery);
-
-    return connection.query(updateQuery);
+    return this.connection.query(updateQuery);
   }
 
   genericDelete(id: string, nameColumn: string, schemaName: string, tableName: string) {
-    const connection = getConnection();
-
     let deleteQuery = `DELETE FROM ${schemaName}.${tableName}`;
     deleteQuery += ` WHERE ${nameColumn} = ${id}`;
 
-    return connection.query(deleteQuery);
+    return this.connection.query(deleteQuery);
   }
 
   genericSelect(columns: any[], schemaName: string, tableName: string, whereColumns?: string, predicates?: string) {
@@ -54,7 +47,6 @@ export class GenericDA {
     }
 
     this.logger.warn(selectQuery);
-
     return this.connection.query(selectQuery);
   }
 }

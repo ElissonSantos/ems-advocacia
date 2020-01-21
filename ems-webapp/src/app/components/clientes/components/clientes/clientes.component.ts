@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { ClienteResource } from 'src/app/models/cliente.model';
 import { state, trigger, style, transition, animate } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ems-clientes',
@@ -24,25 +25,40 @@ export class ClientesComponent implements OnInit {
 
   listaClientes: ClienteResource[];
   cols: any;
+  confirmDelete: boolean;
 
-  constructor (
+  constructor(
     private readonly clienteService: ClienteService,
-    ) {}
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'nome', header: 'Nome' },
       { field: 'cpf', header: 'CPF' },
-      { field: 'casos', header: 'Casos' },
-      { field: 'telefone', header: 'Telefone' }
+      { field: 'telefone', header: 'Telefone' },
+      { field: 'opcoes', header: 'Opções' }
     ];
+    this.confirmDelete = false;
     this.pesquisa();
   }
 
   pesquisa() {
     this.clienteService.list()
       .subscribe(retorno => this.listaClientes = retorno);
+  }
 
-    console.log(this.listaClientes);
+  visualizarCliente(cliente: ClienteResource) {
+    this.router.navigate(['/editCliente', { id: cliente.id, alt: false}])
+  }
+
+  alterarCliente(cliente: ClienteResource) {
+    console.log('Alterou o cliente')
+    console.log(cliente)
+  }
+
+  excluirCliente(cliente: ClienteResource) {
+    console.log('Excluiu o cliente')
+    console.log(cliente)
   }
 }

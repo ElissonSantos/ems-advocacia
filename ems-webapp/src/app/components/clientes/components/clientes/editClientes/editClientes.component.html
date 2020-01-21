@@ -3,7 +3,7 @@
         <p-messages [value]="msgs"></p-messages>
         <p-tabView [activeIndex]="index">
 
-            <p-tabPanel [disabled]="ecpf" [selected]="selecionou()" header="Pessoa Fisica" leftIcon="pi pi-user"
+            <p-tabPanel [disabled]="ecpf" [selected]="changeTab()" header="Pessoa Fisica" leftIcon="pi pi-user"
                 tooltip="Cadastro de Pessoa Fisica">
 
                 <div class="p-col">
@@ -23,7 +23,7 @@
                                 <div class="ui-g-12">
                                     <span class="ui-float-label">
                                         <input style="width: 100%;" formControlName="nome" required type="text"
-                                            pInputText>
+                                            pInputText >
                                         <label style="font-size: medium; color: #464646;">Nome Completo:</label>
                                     </span>
                                 </div>
@@ -143,7 +143,7 @@
 
             </p-tabPanel>
 
-            <p-tabPanel [disabled]="ecnpj" [selected]="selecionou()" header="Pessoa Jurídica" rightIcon="pi pi-inbox"
+            <p-tabPanel [disabled]="ecnpj" [selected]="changeTab()" header="Pessoa Jurídica" rightIcon="pi pi-inbox"
                 tooltip="Cadastro de Pessoa Jurídica">
 
                 <div class="p-col">

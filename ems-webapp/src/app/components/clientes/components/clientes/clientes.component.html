@@ -1,64 +1,60 @@
-<div class="content">
-    <div class="ui-g-row">
-        <div class="ui-g-6">
-            <h1 style="color: white;">Lista de Clientes</h1>
+<div class="p-grid">
+    <div class="p-col-8 p-col-align-center" style="margin: auto;">
+        <p-messages [value]="msgs"></p-messages>
+
+        <div class="ui-g-12">
+            <div class="ui-g-6">
+                <h1 style="color: white;">Lista de Clientes</h1>
+            </div>
+
+            <div class="ui-g-6">
+                <button class="floatRight" pButton type="button" label="Novo Cliente" [routerLink]="['/editCliente']"
+                    icon="pi pi-plus" iconPos="left"></button>
+            </div>
         </div>
 
-        <div class="ui-g-6">
-            <button class="floatRight" pButton type="button" label="Novo Cliente" [routerLink]="['/editCliente']"
-                icon="pi pi-check" iconPos="left"></button>
+        <!-- Tabela de Clientes -->
+        <div class="ui-g-12">
+            <p-table [columns]="cols" [value]="listaClientes">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData>
+                    <tr>
+                        <td class="center">
+                            {{ rowData.nome }}
+                        </td>
+                        <td class="center">
+                            {{ rowData.cpf }}
+                        </td>
+                        <td class="center">
+                            {{ rowData.fone }}
+                        </td>
+                        <td class="center">
+                            <button pButton icon="pi pi-search" (click)="visualizarCliente(rowData)"
+                                class="ui-button-raised"></button>
+                            <button pButton icon="pi pi-pencil" class="ui-button-raised ui-button-warning"
+                                (click)="alterarCliente(rowData)"></button>
+                            <button pButton icon="pi pi-trash" class="ui-button-raised ui-button-danger"
+                                (click)="confirmDelete=true"></button>
+                        </td>
+                    </tr>
+
+                    <p-dialog header="Confirmar Exclusão" [(visible)]="confirmDelete">
+                        <p>Voce tem certeza que deseja excluir este cliente?</p>
+                        <p-footer>
+                            <button type="button" pButton icon="pi pi-check" (click)="excluirCliente(rowData)"
+                                label="Sim" class="ui-button-raised ui-button-danger"></button>
+                            <button type="button" pButton icon="pi pi-close" (click)="confirmDelete=false" label="Não"
+                                class="ui-button-raised"></button>
+                        </p-footer>
+                    </p-dialog>
+                </ng-template>
+            </p-table>
         </div>
     </div>
 </div>
-
-<!-- Tabela de Clientes -->
-<!-- <div class="ui-g-row">
-    <p-table [columns]="cols" [value]="listaClientes">
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th style="width: 3em"></th>
-                <th *ngFor="let col of columns">
-                    {{col.header}}
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-            <tr>
-                <td>
-                    <a href="#" [pRowToggler]="rowData">
-                        <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
-                    </a>
-                </td>
-                <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
-            <tr>
-                <td [attr.colspan]="columns.length + 1">
-                    <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
-                        <div class="ui-g-12 ui-md-3" style="text-align:center">
-                        </div>
-                        <div class="ui-g-12 ui-md-9">
-                            <div class="ui-g">
-                                <div class="ui-g-12">
-                                    <b>Vin:</b> {{rowData.cpf}}
-                                </div>
-                                <div class="ui-g-12">
-                                    <b>Year:</b> {{rowData.cpf}}
-                                </div>
-                                <div class="ui-g-12">
-                                    <b>Brand:</b> {{rowData.cpf}}
-                                </div>
-                                <div class="ui-g-12">
-                                    <b>Color:</b> {{rowData.cpf}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div> -->

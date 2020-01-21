@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { EditClientesComponent } from './components/clientes/editClientes/editClientes.component';
+import { NotFoundComponent } from '../notFound/not-found.component';
 
 const routes: Routes = [
   { path: '', component: ClientesComponent },

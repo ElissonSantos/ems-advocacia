@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Put, Post, Delete, Logger, Body, Query } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
+import { ClienteResource } from 'src/models/cliente.model';
 
 @Controller('clientes')
 export class ClientesController {
@@ -49,8 +50,7 @@ export class ClientesController {
   getClientes() {
     return this.clientesService.list()
       .then(result => {
-        this.logger.error(result)
-        const retorno = [];
+        const retorno: ClienteResource[] = [];
         result.forEach(cliente => {
           const clienteResource = this.clientesService.convertDomainToResource(cliente);
           retorno.push(clienteResource);
@@ -63,7 +63,7 @@ export class ClientesController {
   }
 
   @Get(':id')
-  getMessage(@Param('id') id: string) {
+  getCliente(@Param('id') id: string) {
     return this.clientesService.read(id)
       .then(result => {
         const retorno = this.clientesService.convertDomainToResource(result[0]);

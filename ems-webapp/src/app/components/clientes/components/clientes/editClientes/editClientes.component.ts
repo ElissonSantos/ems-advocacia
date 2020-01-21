@@ -21,6 +21,7 @@ export class EditClientesComponent implements OnInit {
   idCliente: any;
   cols: any[];
   msgs: string;
+  editable: boolean;
 
   ecpf: boolean;
   ecnpj: boolean;
@@ -36,6 +37,7 @@ export class EditClientesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.cliente = {};
     this.buildForms();
     this.cols = [
       { field: 'numero', header: 'Numero' },
@@ -44,37 +46,40 @@ export class EditClientesComponent implements OnInit {
       { field: 'opcoes', header: 'Opções' }
     ];
 
+    this.editable = false;
     this.ecpf = false;
     this.ecnpj = false;
     this.msgs = '';
-    this.route.params.subscribe(x => {
-      this.idCliente = x.id;
-    });
 
-    if (this.idCliente) {
-      this.clienteService.read(this.idCliente)
-        .subscribe(cliente => {
-          this.cliente = cliente;
-          this.index = 1;
-          this.textoAlterado = 'textinho'
-          this.ecpf = true;
-          this.ecpf = false;
-        });
-      if (!this.cliente) {
-        this.cancelarCadastro();
-      }
-      this.loadObjectToForm(this.cliente);
-      this.cadastroForm.disable();
-    } else {
-      this.index = 0;
-      this.textoAlterado = 'Otavio mesquita'
-      this.cliente = null;
-    }
+    this.cadastroForm.disable();
+
+    this.route.params
+      .subscribe(params => {
+        this.idCliente = params.id;
+        this.editable = params.alt;
+
+        // Verifica se é Editar ou Adicionar Cliente
+        if (this.idCliente) {
+          this.clienteService.read(this.idCliente)
+            .subscribe(cliente => {
+              if (!cliente) { this.cancelarCadastro() }
+              this.cliente = cliente;
+              if (cliente.cnpj === '0') { this.index = 0 }
+              else { this.index = 1 }
+              // this.loadObjectToForm(this.cliente);
+              if (this.editable === false) {
+                console.log('this.editable deu fake')
+                this.cadastroForm.disable();
+              }
+            });
+        } else {
+          this.index = 0;
+          this.cliente = null;
+        }
+      });
   }
 
   buildForms() {
-
-    // Formulario Pessoa Fisica
     this.cadastroForm = this.fb.group({
       id: [''],
       nome: ['', Validators.required],
@@ -86,11 +91,6 @@ export class EditClientesComponent implements OnInit {
       fone1: [''],
       endereco: ['', Validators.required]
     });
-  }
-
-  selecionou() {
-    console.log('veio por aqui')
-    this.textoAlterado = 'Vai alternando sem compromisso';
   }
 
   novoCliente() {
@@ -121,15 +121,32 @@ export class EditClientesComponent implements OnInit {
     this.router.navigate(['/clientes']);
   }
 
+  alterar() {
+    this.cadastroForm.enable();
+  }
+
+  delete() {
+    console.log('deletaar');
+  }
+
+  changeTab() {
+    this.cadastroForm.reset();
+  }
+
   loadObjectToForm(cliente: ClienteResource) {
-    this.cadastroForm.setValue({
-      id: cliente.id,
-      nome: cliente.nome,
-      rg: cliente.rg,
-      cpf: cliente.cpf,
-      fone: cliente.fone,
-      fone1: cliente.fone1,
-      endereco: cliente.endereco
-    });
+    console.log('log dentro do load')
+    console.log(cliente)
+    // this.cadastroForm.get('nome').setValue('Valor')
+    // this.cadastroForm.setValue({
+    //   id: cliente.id,
+    //   nome: cliente.nome,
+    //   email: cliente.email,
+    //   rg: cliente.rg,
+    //   cpf: cliente.cpf,
+    //   cnpj: cliente.cnpj,
+    //   fone: cliente.fone,
+    //   fone1: cliente.fone1,
+    //   endereco: cliente.endereco
+    // });
   }
 }

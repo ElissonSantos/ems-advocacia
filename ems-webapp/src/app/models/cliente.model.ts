@@ -16,8 +16,9 @@ export interface ClienteResource {
   email?: string;
   rg?: number;
   cpf?: number;
-  cnpj?: number;
+  cnpj?: string;
   fone?: number;
   fone1?: number;
   endereco?: string;
+  casos?: number;
 }

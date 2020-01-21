@@ -6,7 +6,7 @@ import { CasosModule } from './casos/casos.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { MessageModule } from './message/message.module';
 import { AboutModule } from './about/about.module';
-import { PrimeNgModule } from './primeng.module';
+import { NotFoundModule } from './notFound/not-found.module';
 
 @NgModule({
   imports: [
@@ -16,6 +16,7 @@ import { PrimeNgModule } from './primeng.module';
     ClientesModule,
     MessageModule,
     AboutModule,
+    NotFoundModule
   ],
   declarations: [],
   providers: []
