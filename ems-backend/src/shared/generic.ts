@@ -21,14 +21,19 @@ export class GenericDA {
     return this.connection.query(insertQuery);
   }
 
-  genericUpdate(id: string, nameColumn: string, columns: any[], values: any[], schemaName: string, tableName: string) {
-    let updateQuery = `UPDATE ${schemaName}.${tableName} SET `;
+  genericUpdate(
+    id: string, nameColumn: string, columns: any[], values: any[], schemaName: string, tableName: string
+  ) {
+    let updateQuery = `UPDATE ${schemaName}.${tableName} SET`;
     for (let i = 0; i < columns.length; i++) {
-      updateQuery += `${columns[i]} = '${values[i]}',`;
+      updateQuery += ` ${columns[i]} = ${values[i]}`;
+      if (columns[i+1]) {
+        updateQuery += ','
+      }
     }
     updateQuery += ` WHERE ${nameColumn} = ${id}`;
 
-    this.logger.log(updateQuery);
+    this.logger.warn(updateQuery);
     return this.connection.query(updateQuery);
   }
 
@@ -36,6 +41,7 @@ export class GenericDA {
     let deleteQuery = `DELETE FROM ${schemaName}.${tableName}`;
     deleteQuery += ` WHERE ${nameColumn} = ${id}`;
 
+    this.logger.warn(deleteQuery);
     return this.connection.query(deleteQuery);
   }
 

@@ -39,6 +39,10 @@ export class ClientesComponent implements OnInit {
       { field: 'telefone', header: 'Telefone' },
       { field: 'opcoes', header: 'Opções' }
     ];
+    this.init();
+  }
+
+  init() {
     this.confirmDelete = false;
     this.pesquisa();
   }
@@ -49,16 +53,18 @@ export class ClientesComponent implements OnInit {
   }
 
   visualizarCliente(cliente: ClienteResource) {
-    this.router.navigate(['/editCliente', { id: cliente.id, alt: false}])
+    this.router.navigate(['/editCliente', { id: cliente.id, alt: false }]);
   }
 
   alterarCliente(cliente: ClienteResource) {
-    console.log('Alterou o cliente')
-    console.log(cliente)
+    this.router.navigate(['/editCliente', { id: cliente.id, alt: true }])
   }
 
   excluirCliente(cliente: ClienteResource) {
-    console.log('Excluiu o cliente')
-    console.log(cliente)
+    this.clienteService.delete(cliente.id)
+      .subscribe(() => {
+        console.log('Cliente excluido com sucesso')
+        this.init();
+      })
   }
 }

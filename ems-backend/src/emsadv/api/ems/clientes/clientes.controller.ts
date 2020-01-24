@@ -24,19 +24,18 @@ export class ClientesController {
 
   @Put()
   update(@Body() body: any) {
-    this.logger.warn('Put');
-    this.logger.warn(body);
-    // return this.clientesService.update(body)
-    //   .then(() => {
-    //     return;
-    //   })
-    //   .catch(err => {
-    //     return err;
-    //   });
+    return this.clientesService.update(body)
+      .then(() => {
+        return;
+      })
+      .catch(err => {
+        return err;
+      });
   }
 
   @Delete()
   delete(@Query('id') id: string) {
+    console.log(id)
     return this.clientesService.delete(id)
       .then(() => {
         return;

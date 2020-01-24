@@ -20,8 +20,11 @@ export class ClienteService {
     }
   }
 
-  delete(id: string) {
-    return this.http.delete(this.pathUrl, { [id]: id });
+  delete(idCliente: string) {
+    const params = new HttpParams;
+    params.append('idCliente', idCliente);
+    console.log(params)
+    return this.http.delete(this.pathUrl, { params: params });
   }
 
   list() {

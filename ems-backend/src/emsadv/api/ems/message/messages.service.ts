@@ -66,7 +66,7 @@ export class MessagesService {
   }
 
   async list() {
-    const connection = getConnection();
+    const connection = getConnection('emsdb');
     const query = 'SELECT * FROM emsadv.messages;';
     return connection.query(query);
   }

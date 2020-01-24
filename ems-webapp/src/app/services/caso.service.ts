@@ -24,7 +24,7 @@ export class CasoService {
     return this.http.delete(this.pathUrl, { [id]: id });
   }
 
-  list() {
+  list(clienteId: string) {
     return this.http.get(this.pathUrl);
   }
 

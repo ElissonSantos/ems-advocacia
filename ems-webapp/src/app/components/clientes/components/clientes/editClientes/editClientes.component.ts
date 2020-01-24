@@ -6,7 +6,6 @@ import { CasoResource } from 'src/app/models/caso.model';
 import { CasoService } from 'src/app/services/caso.service';
 import { ClienteResource, Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
-import { Message } from 'primeng/api';
 
 @Component({
   selector: 'ems-editClientes',
@@ -18,6 +17,7 @@ export class EditClientesComponent implements OnInit {
   processos: CasoResource[];
   cliente: ClienteResource;
   cadastroForm: FormGroup;
+  testeForm: FormGroup;
   idCliente: any;
   cols: any[];
   msgs: string;
@@ -25,7 +25,6 @@ export class EditClientesComponent implements OnInit {
 
   ecpf: boolean;
   ecnpj: boolean;
-  textoAlterado: string;
   index: number;
 
   constructor(
@@ -38,74 +37,83 @@ export class EditClientesComponent implements OnInit {
 
   ngOnInit() {
     this.cliente = {};
-    this.buildForms();
     this.cols = [
       { field: 'numero', header: 'Numero' },
       { field: 'area', header: 'Área' },
       { field: 'situacao', header: 'Situação' },
       { field: 'opcoes', header: 'Opções' }
     ];
-
-    this.editable = false;
-    this.ecpf = false;
-    this.ecnpj = false;
     this.msgs = '';
-
-    this.cadastroForm.disable();
+    this.buildForms();
 
     this.route.params
       .subscribe(params => {
+        // Verifica se é alterar ou visualizar
+        if (params.alt === 'false') {
+          this.editable = false;
+        } else {
+          this.editable = true;
+        }
+        // Salva o id do cliente
         this.idCliente = params.id;
-        this.editable = params.alt;
-
         // Verifica se é Editar ou Adicionar Cliente
         if (this.idCliente) {
           this.clienteService.read(this.idCliente)
             .subscribe(cliente => {
               if (!cliente) { this.cancelarCadastro() }
               this.cliente = cliente;
+              // Verificar
               if (cliente.cnpj === '0') { this.index = 0 }
               else { this.index = 1 }
-              // this.loadObjectToForm(this.cliente);
-              if (this.editable === false) {
-                console.log('this.editable deu fake')
+              // Carregar form com o Cliente
+              this.loadObjectToForm(cliente);
+              // Se for apenas visualizar, desabilita o form
+              if (!this.editable) {
                 this.cadastroForm.disable();
               }
             });
+          // Verifica os casos do cliente
+          this.casoService.list(this.idCliente)
+            .subscribe((processos: CasoResource[]) => {
+              this.processos = processos;
+            })
         } else {
           this.index = 0;
           this.cliente = null;
+          this.buildForms();
         }
       });
   }
 
   buildForms() {
     this.cadastroForm = this.fb.group({
-      id: [''],
-      nome: ['', Validators.required],
-      email: ['', Validators.required],
-      rg: [undefined],
-      cpf: [undefined],
-      cnpj: [undefined],
-      fone: [undefined, Validators.required],
-      fone1: [''],
-      endereco: ['', Validators.required]
+      idCliente: ['' || this.cliente.id],
+      nomeCliente: ['' || this.cliente.nome, Validators.required],
+      emailCliente: ['' || this.cliente.email, Validators.required],
+      rgCliente: [undefined || this.cliente.rg],
+      cpfCliente: [undefined || this.cliente.cpf],
+      foneCliente: [undefined || this.cliente.fone, Validators.required],
+      fone1Cliente: ['' || this.cliente.fone1],
+      enderecoCliente: ['' || this.cliente.endereco, Validators.required]
     });
   }
 
   novoCliente() {
-    const { id, nome, email, rg, cpf, cnpj, fone, fone1, endereco } = this.cadastroForm.value;
+    const {
+      idCliente, nomeCliente, emailCliente, rgCliente, cpfCliente,
+      cnpj, foneCliente, fone1Cliente, enderecoCliente
+    } = this.cadastroForm.value;
 
     const newCliente: Cliente = {
-      cli_id: id,
-      cli_nome: nome,
-      cli_email: email,
-      cli_rg: rg,
-      cli_cpf: cpf,
+      cli_id: idCliente,
+      cli_nome: nomeCliente,
+      cli_email: emailCliente,
+      cli_rg: rgCliente,
+      cli_cpf: cpfCliente,
       cli_cnpj: cnpj,
-      cli_fone: fone,
-      cli_fone1: fone1,
-      cli_endereco: endereco
+      cli_fone: foneCliente,
+      cli_fone1: fone1Cliente,
+      cli_endereco: enderecoCliente
     }
 
     this.clienteService.insert(newCliente)
@@ -130,23 +138,19 @@ export class EditClientesComponent implements OnInit {
   }
 
   changeTab() {
-    this.cadastroForm.reset();
+    // this.testeForm.reset();
   }
 
   loadObjectToForm(cliente: ClienteResource) {
-    console.log('log dentro do load')
-    console.log(cliente)
-    // this.cadastroForm.get('nome').setValue('Valor')
-    // this.cadastroForm.setValue({
-    //   id: cliente.id,
-    //   nome: cliente.nome,
-    //   email: cliente.email,
-    //   rg: cliente.rg,
-    //   cpf: cliente.cpf,
-    //   cnpj: cliente.cnpj,
-    //   fone: cliente.fone,
-    //   fone1: cliente.fone1,
-    //   endereco: cliente.endereco
-    // });
+    this.cadastroForm.setValue({
+      idCliente: cliente.id,
+      nomeCliente: cliente.nome,
+      emailCliente: cliente.email,
+      rgCliente: cliente.rg,
+      cpfCliente: cliente.cpf,
+      foneCliente: cliente.fone,
+      fone1Cliente: cliente.fone1,
+      enderecoCliente: cliente.endereco,
+    });
   }
 }

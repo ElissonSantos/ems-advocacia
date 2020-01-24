@@ -56,18 +56,22 @@ export class ClientesService {
       [
         // Colunas que serao inseridas
         'cli_nome',
+        'cli_email',
         'cli_rg',
         'cli_cpf',
         'cli_fone',
         'cli_fone1',
+        'cli_endereco',
       ],
       [
         // Valores que serao inseridos
         `'${cliente.cli_nome}'`,
+        `'${cliente.cli_email}'`,
         `'${cliente.cli_rg}'`,
         `'${cliente.cli_cpf}'`,
         `'${cliente.cli_fone}'`,
         `'${cliente.cli_fone1}'`,
+        `'${cliente.cli_endereco}'`,
       ],
       this.schemaName,
       this.tableName,
