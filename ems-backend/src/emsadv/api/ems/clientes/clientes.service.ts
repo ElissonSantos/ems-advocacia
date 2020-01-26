@@ -17,9 +17,11 @@ export class ClientesService {
   }
 
   insert(cliente: Cliente): Promise<any> {
-    if (!cliente.cli_cnpj) { cliente.cli_cnpj = 0; }
-    if (!cliente.cli_rg) { cliente.cli_rg = 0; }
-    if (!cliente.cli_cpf) { cliente.cli_cpf = 0; }
+    if (!cliente.cli_cnpj) {
+      cliente.cli_cnpj = 0;
+    } else {
+      cliente.cli_rg = 0; cliente.cli_cpf = 0;
+    }
     if (!cliente.cli_fone1) { cliente.cli_fone1 = 0; }
     return this.genericDA.genericInsert(
       [
@@ -32,6 +34,7 @@ export class ClientesService {
         'cli_fone',
         'cli_fone1',
         'cli_endereco',
+        'cli_a'
       ],
       [
         // Valores que serao inseridos
@@ -43,6 +46,7 @@ export class ClientesService {
         `'${cliente.cli_fone}'`,
         `'${cliente.cli_fone1}'`,
         `'${cliente.cli_endereco}'`,
+        true
       ],
       this.schemaName,
       this.tableName,
@@ -50,36 +54,51 @@ export class ClientesService {
   }
 
   update(cliente: Cliente): Promise<any> {
+    let columns: string[] = [];
+    let values: string[] = [];
+
+    if (cliente.cli_nome) {
+      columns.push('cli_nome');
+      values.push(`'${cliente.cli_nome}'`);
+    }
+    if (cliente) {
+      columns.push('cli_email');
+      values.push(`'${cliente.cli_email}'`);
+    }
+    if (cliente) {
+      columns.push('cli_rg');
+      values.push(`'${cliente.cli_rg}'`);
+    }
+    if (cliente) {
+      columns.push('cli_cpf');
+      values.push(`'${cliente.cli_cpf}'`);
+    }
+    if (cliente) {
+      columns.push('cli_fone');
+      values.push(`'${cliente.cli_fone}'`);
+    }
+    if (cliente) {
+      columns.push('cli_fone1');
+      values.push(`'${cliente.cli_fone1}'`);
+    }
+    if (cliente) {
+      columns.push('cli_endereco');
+      values.push(`'${cliente.cli_endereco}'`);
+    }
+
     return this.genericDA.genericUpdate(
       cliente.cli_id,
       'cli_id',
-      [
-        // Colunas que serao inseridas
-        'cli_nome',
-        'cli_email',
-        'cli_rg',
-        'cli_cpf',
-        'cli_fone',
-        'cli_fone1',
-        'cli_endereco',
-      ],
-      [
-        // Valores que serao inseridos
-        `'${cliente.cli_nome}'`,
-        `'${cliente.cli_email}'`,
-        `'${cliente.cli_rg}'`,
-        `'${cliente.cli_cpf}'`,
-        `'${cliente.cli_fone}'`,
-        `'${cliente.cli_fone1}'`,
-        `'${cliente.cli_endereco}'`,
-      ],
+      columns,
+      values,
       this.schemaName,
       this.tableName,
     );
   }
 
   delete(id: string): Promise<any> {
-    return this.genericDA.genericDelete(id, 'cli_id', this.schemaName, this.tableName);
+    const columns = ['cli_a', 'cli_id'];
+    return this.genericDA.genericDelete(id, columns, this.schemaName, this.tableName);
   }
 
   list() {
@@ -113,6 +132,7 @@ export class ClientesService {
         cli_fone: resource.fone,
         cli_fone1: resource.fone1,
         cli_endereco: resource.endereco,
+        cli_a: resource.a,
       };
     }
     return cliente;
@@ -132,6 +152,7 @@ export class ClientesService {
         fone: domain.cli_fone,
         fone1: domain.cli_fone1,
         endereco: domain.cli_endereco,
+        a: domain.cli_a,
       };
     }
     return clienteResource;

@@ -27,32 +27,35 @@ export class GenericDA {
     let updateQuery = `UPDATE ${schemaName}.${tableName} SET`;
     for (let i = 0; i < columns.length; i++) {
       updateQuery += ` ${columns[i]} = ${values[i]}`;
-      if (columns[i+1]) {
+      if (columns[i + 1]) {
         updateQuery += ','
       }
     }
     updateQuery += ` WHERE ${nameColumn} = ${id}`;
 
-    this.logger.warn(updateQuery);
+    console.log(updateQuery);
     return this.connection.query(updateQuery);
   }
 
-  genericDelete(id: string, nameColumn: string, schemaName: string, tableName: string) {
-    let deleteQuery = `DELETE FROM ${schemaName}.${tableName}`;
-    deleteQuery += ` WHERE ${nameColumn} = ${id}`;
+  genericDelete(id: string, namesColumns: string[], schemaName: string, tableName: string) {
+    let deleteQuery = `UPDATE ${schemaName}.${tableName} SET`;
+    deleteQuery += ` ${namesColumns[0]} = false `;
+    deleteQuery += ` WHERE ${namesColumns[1]} = ${id}`;
 
-    this.logger.warn(deleteQuery);
+    console.log(deleteQuery);
     return this.connection.query(deleteQuery);
   }
 
   genericSelect(columns: any[], schemaName: string, tableName: string, whereColumns?: string, predicates?: string) {
     let selectQuery = `SELECT ${columns} FROM ${schemaName}.${tableName}`;
-
     if (predicates) {
       selectQuery += ` WHERE ${whereColumns} = '${predicates}'`;
+      selectQuery += ` AND cli_a = true`;
+    } else {
+      selectQuery += ` WHERE cli_a = true`;
     }
 
-    this.logger.warn(selectQuery);
+    console.log(selectQuery);
     return this.connection.query(selectQuery);
   }
 }

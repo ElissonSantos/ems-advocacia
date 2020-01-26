@@ -1,6 +1,7 @@
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Message } from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { CasoResource } from 'src/app/models/caso.model';
 import { CasoService } from 'src/app/services/caso.service';
@@ -8,20 +9,20 @@ import { ClienteResource, Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
-  selector: 'ems-editClientes',
-  templateUrl: './editClientes.component.html',
-  styleUrls: ['./editClientes.component.css']
+  selector: 'ems-edit-clientes',
+  templateUrl: './edit-clientes.component.html',
+  styleUrls: ['./edit-clientes.component.css']
 })
 export class EditClientesComponent implements OnInit {
 
   processos: CasoResource[];
   cliente: ClienteResource;
   cadastroForm: FormGroup;
-  testeForm: FormGroup;
   idCliente: any;
   cols: any[];
-  msgs: string;
+  msgs: Message[];
   editable: boolean;
+  confirmDelete: boolean;
 
   ecpf: boolean;
   ecnpj: boolean;
@@ -43,7 +44,7 @@ export class EditClientesComponent implements OnInit {
       { field: 'situacao', header: 'Situação' },
       { field: 'opcoes', header: 'Opções' }
     ];
-    this.msgs = '';
+    this.msgs = [];
     this.buildForms();
 
     this.route.params
@@ -86,17 +87,22 @@ export class EditClientesComponent implements OnInit {
   }
 
   buildForms() {
-    this.cadastroForm = this.fb.group({
-      idCliente: ['' || this.cliente.id],
-      nomeCliente: ['' || this.cliente.nome, Validators.required],
-      emailCliente: ['' || this.cliente.email, Validators.required],
-      rgCliente: [undefined || this.cliente.rg],
-      cpfCliente: [undefined || this.cliente.cpf],
-      foneCliente: [undefined || this.cliente.fone, Validators.required],
-      fone1Cliente: ['' || this.cliente.fone1],
-      enderecoCliente: ['' || this.cliente.endereco, Validators.required]
+    this.cadastroForm = new FormGroup({
+      'idCliente': new FormControl('' || this.cliente.id),
+      'nomeCliente': new FormControl('' || this.cliente.nome, Validators.required),
+      'emailCliente': new FormControl('' || this.cliente.email, Validators.required),
+      'rgCliente': new FormControl(undefined || this.cliente.rg),
+      'cpfCliente': new FormControl(undefined || this.cliente.cpf),
+      'foneCliente': new FormControl(undefined || this.cliente.fone),
+      'fone1Cliente': new FormControl('' || this.cliente.fone1),
+      'enderecoCliente': new FormControl('' || this.cliente.endereco, Validators.required),
     });
   }
+
+  get nome() { return this.cadastroForm.get('nomeCliente'); }
+  get email() { return this.cadastroForm.get('emailCliente'); }
+  get fone() { return this.cadastroForm.get('foneCliente'); }
+  get endereco() { return this.cadastroForm.get('enderecoCliente'); }
 
   novoCliente() {
     const {
@@ -121,7 +127,7 @@ export class EditClientesComponent implements OnInit {
         this.cancelarCadastro();
       },
         err => {
-          this.msgs = 'Ocorreu um erro ao salvar cliente.'
+          this.msgs.push({ severity: 'error', summary: 'Ocorreu um erro ao salvar cliente.' });
         });
   }
 
@@ -129,12 +135,18 @@ export class EditClientesComponent implements OnInit {
     this.router.navigate(['/clientes']);
   }
 
-  alterar() {
+  alterarCadastro() {
     this.cadastroForm.enable();
   }
 
-  delete() {
-    console.log('deletaar');
+  excluirCadastro() {
+    this.clienteService.delete(this.idCliente)
+      .subscribe(() => {
+        this.router.navigate(['/clientes']);
+      },
+        err => {
+          this.msgs.push({ severity: 'error', summary: 'Ocorreu um erro ao excluir o cliente.' });
+        });
   }
 
   changeTab() {

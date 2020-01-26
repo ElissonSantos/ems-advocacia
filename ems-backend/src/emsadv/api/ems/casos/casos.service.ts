@@ -61,7 +61,8 @@ export class CasosService {
   }
 
   delete(id: string): Promise<any> {
-    return this.genericDA.genericDelete(id, 'ca_id', this.schemaName, this.tableName);
+    const columns = ['ca_a', 'ca_id'];
+    return this.genericDA.genericDelete(id, columns, this.schemaName, this.tableName);
   }
 
   list() {

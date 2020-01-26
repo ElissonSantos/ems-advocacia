@@ -8,6 +8,7 @@ export interface Cliente {
   cli_fone?: number;
   cli_fone1?: number;
   cli_endereco?: string;
+  cli_a?: boolean;
 }
 
 export interface ClienteResource {
@@ -21,4 +22,5 @@ export interface ClienteResource {
   fone1?: number;
   endereco?: string;
   casos?: number;
+  a?: boolean;
 }

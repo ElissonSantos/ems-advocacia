@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CasosComponent } from './components/casos/casos.component';
-import { DetailCasoComponent } from './components/detailCaso/detail-caso.component';
-import { NotFoundComponent } from '../notFound/not-found.component';
+import { CasosComponent } from './components/casos.component';
+import { EditCasosComponent } from './components/editCasos/edit-casos.component';
 
 const routes: Routes = [
   { path: '', component: CasosComponent },
-  { path: 'detailCasos', component: DetailCasoComponent },
+  { path: 'editCasos', component: EditCasosComponent },
+  { path: 'editCasos/:id', component: EditCasosComponent },
 ];
 
 @NgModule({

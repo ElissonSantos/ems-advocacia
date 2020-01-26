@@ -21,9 +21,9 @@ export class ClienteService {
   }
 
   delete(idCliente: string) {
-    const params = new HttpParams;
-    params.append('idCliente', idCliente);
-    console.log(params)
+    let params = new HttpParams();
+    params = params.append('idCliente', idCliente);
+    console.log(params);
     return this.http.delete(this.pathUrl, { params: params });
   }
 

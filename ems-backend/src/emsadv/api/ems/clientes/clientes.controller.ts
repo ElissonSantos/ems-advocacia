@@ -34,9 +34,8 @@ export class ClientesController {
   }
 
   @Delete()
-  delete(@Query('id') id: string) {
-    console.log(id)
-    return this.clientesService.delete(id)
+  delete(@Query('idCliente') idCliente: string) {
+    return this.clientesService.delete(idCliente)
       .then(() => {
         return;
       })
@@ -57,7 +56,7 @@ export class ClientesController {
         return retorno;
       })
       .catch(err => {
-        return err;
+        return 'Erro: ' + err;
       });
   }
 

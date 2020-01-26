@@ -6,11 +6,11 @@ import { ClienteService } from 'src/app/services/cliente.service';
 import { ClienteResource } from 'src/app/models/cliente.model';
 
 @Component({
-  selector: 'ems-clientes',
-  templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.css'],
+  selector: 'ems-casos',
+  templateUrl: './casos.component.html',
+  styleUrls: ['./casos.component.css']
 })
-export class ClientesComponent implements OnInit {
+export class CasosComponent implements OnInit {
 
   listaClientes: ClienteResource[];
   cols: any;
