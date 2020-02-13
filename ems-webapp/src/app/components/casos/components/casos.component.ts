@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { FilterUtils, Message } from 'primeng/api';
+import { FilterUtils, Message, SelectItem } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
 import { ClienteService } from 'src/app/services/cliente.service';
@@ -13,6 +13,7 @@ import { ClienteResource } from 'src/app/models/cliente.model';
 export class CasosComponent implements OnInit {
 
   listaClientes: ClienteResource[];
+  areas: SelectItem[];
   cols: any;
   confirmDelete: boolean;
   msgs: Message[];
@@ -28,6 +29,13 @@ export class CasosComponent implements OnInit {
       { field: 'cpf', header: 'CPF' },
       { field: 'telefone', header: 'Telefone' },
       { field: 'opcoes', header: 'Opções' }
+    ];
+    this.areas = [
+      { label: 'Civil', value: 'Green' },
+      { label: 'Criminal', value: 'Silver' },
+      { label: 'Familia', value: 'White' },
+      { label: 'Trabalho', value: 'Black' },
+      { label: 'Previdenciario', value: 'Blue' }
     ];
 
     this.msgs = [];

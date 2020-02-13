@@ -25,6 +25,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { ListboxModule } from 'primeng/listbox';
 import { MenuModule } from 'primeng/menu';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 
@@ -56,6 +58,8 @@ import { TabViewModule } from 'primeng/tabview';
     KeyFilterModule,
     ListboxModule,
     MenuModule,
+    MultiSelectModule,
+    PanelModule,
     TableModule,
     TabViewModule
   ],
@@ -86,6 +90,8 @@ import { TabViewModule } from 'primeng/tabview';
     KeyFilterModule,
     ListboxModule,
     MenuModule,
+    MultiSelectModule,
+    PanelModule,
     TableModule,
     TabViewModule
   ]

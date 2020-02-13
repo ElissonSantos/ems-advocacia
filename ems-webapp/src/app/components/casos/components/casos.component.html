@@ -1,71 +1,79 @@
 <div class="p-grid">
-    <div class="p-col-8 p-col-align-center" style="margin: auto;">
+    <div class="p-col-10 p-col-align-center" style="margin: auto;">
 
-        <div class="p-col">
+        <div class="ui-g-12">
             <p-messages [(value)]="msgs"></p-messages>
         </div>
 
         <div class="ui-g-12">
             <div class="ui-g-6">
-                <h1 style="color: white;">Lista de Clientes</h1>
+                <h1 style="color: white;">Lista de Casos</h1>
             </div>
 
             <div class="ui-g-6">
-                <button class="floatRight" pButton type="button" label="Novo Cliente" [routerLink]="['/editCliente']"
+                <button class="floatRight" pButton type="button" label="Novo Caso" [routerLink]="['/editCliente']"
                     icon="pi pi-plus" iconPos="left"></button>
             </div>
         </div>
 
-        <!-- Tabela de Clientes -->
         <div class="ui-g-12">
-            <p-table #dt [columns]="cols" [value]="listaClientes" [paginator]="true" [rows]="5">
-                <ng-template pTemplate="caption">
-                    <div style="text-align: right">
-                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                        <input type="text" pInputText size="50" placeholder="Pesquisar"
-                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header" let-columns>
-                    <tr>
-                        <th *ngFor="let col of columns">
-                            {{col.header}}
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData>
-                    <tr>
-                        <td class="center">
-                            {{ rowData.nome }}
-                        </td>
-                        <td class="center">
-                            {{ rowData.cpf }}
-                        </td>
-                        <td class="center">
-                            {{ rowData.fone }}
-                        </td>
-                        <td class="center">
-                            <button pButton icon="pi pi-search" (click)="visualizarCliente(rowData)"
-                                class="ui-button-raised"></button>
-                            <button pButton icon="pi pi-pencil" class="ui-button-raised ui-button-warning"
-                                (click)="alterarCliente(rowData)"></button>
-                            <button pButton icon="pi pi-trash" class="ui-button-raised ui-button-danger"
-                                (click)="confirmDelete=true"></button>
-                        </td>
-                    </tr>
+            <div class="ui-g-3">
+                <p-panel header="Filtro" [style]="{'margin-bottom':'20px'}">
+                    <p-multiSelect [options]="areas" defaultLabel="Todas as Areas" [filter]="false"
+                        (onChange)="lc.filter($event.value, col.field, 'in')"></p-multiSelect>
+                </p-panel>
+            </div>
 
-                    <p-dialog header="Confirmar Exclusão" [(visible)]="confirmDelete">
-                        <p>Voce tem certeza que deseja excluir este cliente?</p>
-                        <p-footer>
-                            <button type="button" pButton icon="pi pi-check" (click)="excluirCliente(rowData)"
-                                label="Sim" class="ui-button-raised ui-button-danger"></button>
-                            <button type="button" pButton icon="pi pi-times" (click)="confirmDelete=false" label="Não"
-                                class="ui-button-raised"></button>
-                        </p-footer>
-                    </p-dialog>
-                </ng-template>
-            </p-table>
+            <!-- Tabela de Casos -->
+            <div class="ui-g-9">
+                <p-table #lc [columns]="cols" [value]="listaClientes" [paginator]="true" [rows]="5">
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: right">
+                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                            <input type="text" pInputText size="50" placeholder="Pesquisar"
+                                (input)="lc.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                        <tr>
+                            <td class="center">
+                                {{ rowData.nome }}
+                            </td>
+                            <td class="center">
+                                {{ rowData.cpf }}
+                            </td>
+                            <td class="center">
+                                {{ rowData.fone }}
+                            </td>
+                            <td class="center">
+                                <button pButton icon="pi pi-search" (click)="visualizarCliente(rowData)"
+                                    class="ui-button-raised"></button>
+                                <button pButton icon="pi pi-pencil" class="ui-button-raised ui-button-warning"
+                                    (click)="alterarCliente(rowData)"></button>
+                                <button pButton icon="pi pi-trash" class="ui-button-raised ui-button-danger"
+                                    (click)="confirmDelete=true"></button>
+                            </td>
+                        </tr>
 
+                        <p-dialog header="Confirmar Exclusão" [(visible)]="confirmDelete">
+                            <p>Voce tem certeza que deseja excluir este cliente?</p>
+                            <p-footer>
+                                <button type="button" pButton icon="pi pi-check" (click)="excluirCliente(rowData)"
+                                    label="Sim" class="ui-button-raised ui-button-danger"></button>
+                                <button type="button" pButton icon="pi pi-times" (click)="confirmDelete=false"
+                                    label="Não" class="ui-button-raised"></button>
+                            </p-footer>
+                        </p-dialog>
+                    </ng-template>
+                </p-table>
+            </div>
         </div>
     </div>
 </div>
